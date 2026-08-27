@@ -27,4 +27,17 @@
 
 {% endfor %}
 
+<form method="post">
+    {% csrf_token %}
+    <labe>Name</label>
+    <br>
+    <input type="text" name="name">
+    <br>
+    <labe>Message</label>
+    <br>
+    <textarea name="message" rows="4"></textarea>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+
 {% endblock %}
