@@ -3,4 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 
 def my_view(request):
-    return render(request,'home.html')
+    context = {
+        'name':'arshiazt',
+        'skills':['python','django','drf']
+    }
+    return render(request,'home.html',context)
