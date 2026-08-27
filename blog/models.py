@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Author(models.model):
+class Author(models.Model):
 
     name = models.CharField(max_length=128)
     class Meta:
@@ -11,7 +11,7 @@ class Author(models.model):
     def __str__(self):
         return self.name
     
-class Book(models.model):
+class Book(models.Model):
 
     title = models.CharField(max_length=128)
     author = models.ForeignKey(Author,on_delete=models.CASCADE)
@@ -28,7 +28,7 @@ class Review(models.Model):
     def __str__(self):
         return f'Review for {self.book.title} by {self.rating} stars'
     
-class Category(models.model):
+class Category(models.Model):
 
     name = models.CharField(max_length=128,unique=True)
     slug = models.SlugField(max_length=128,unique=True)
@@ -42,7 +42,7 @@ class Category(models.model):
     def __str__(self):
         return self.name
     
-class Product(models.model):
+class Product(models.Model):
 
     category = models.ForeignKey(Category,on_delete=models.PROTECT,related_name='products')
     slug = models.SlugField(max_length=128,unique=True)
