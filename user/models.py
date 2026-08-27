@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -28,3 +30,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.full_name
+    
+@receiver(post_save,sender=settings.AUTH_USER_MODEL)
+def manage_profile(sender,instance,created,**kwargs):
+
+    full_name = f'{instance.first_name} {instance.last_name}'
+    if created:
+        Profile.objects.create(user=instance,full_name=full_name)
+    else:
+        Profile.objects.update_or_create(user=instance,defaults={'full_name':full_name})
