@@ -1,6 +1,8 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Profile
 from django.views.generic import ListView,DetailView
+from .forms import UserForms
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -26,3 +28,13 @@ class ProfileDetailView(DetailView):
     model = Profile
     template_name = 'profile-detail.html'
     context_object_name = 'profile'
+
+def subscibe(request):
+
+    if request.method == 'POST':
+        form = UserForms(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            return HttpResponse(f'email send : {email}')
+    form = UserForms()
+    return render(request,'subscribe.html',{'form':form})
