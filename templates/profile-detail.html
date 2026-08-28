@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block  content %}
+
+<h1>{{ profile.full_name }}</h1>
+<p>Role : {{profile.get_role_display }}</p>
+{% if profile.avatar %}
+<img src="{{ profile.avatar.url }}" alt="{{ profile.full_name }}" width="120">
+{% endif %}
+<p>Location : {{ profile.location|default:"-"}}</p>
+<p>Course : {{ profile.course_enrolled }}</p>
+<p>Completed " {{ profile.course_completed }}</p>
+{% endblock %}
