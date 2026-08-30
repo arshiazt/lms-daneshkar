@@ -46,7 +46,7 @@ def subscibe(request):
     return render(request,'subscribe.html',{'form':form})
 
 @api_view(['GET'])
-def profile_list(request):
+def profile_list_api_view(request):
 
     profile = Profile.objects.all()
     serializer_class = ProfileSerializer(profile,many=True)
