@@ -3,6 +3,12 @@ from .models import Profile
 from django.views.generic import ListView,DetailView
 from .forms import UserForms
 from django.http import HttpResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.viewsets import ModelViewSet
+from .serializers import *
 
 # Create your views here.
 
@@ -38,3 +44,33 @@ def subscibe(request):
             return HttpResponse(f'email send : {email}')
     form = UserForms()
     return render(request,'subscribe.html',{'form':form})
+
+@api_view(['GET'])
+def profile_list(request):
+
+    profile = Profile.objects.all()
+    serializer_class = ProfileSerializer(profile,many=True)
+    return Response(serializer_class.data)
+
+class ProfileListApiView(APIView):
+
+    def get(self,request):
+
+        profile = Profile.objects.all()
+        serializer_class = ProfileSerializer(profile,many=True)
+        return Response(serializer_class.data)
+    
+class ProfileListCreateApiView(ListCreateAPIView):
+    
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class ProfileRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+class ProfileViewSet(ModelViewSet):
+
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
