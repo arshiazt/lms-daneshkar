@@ -76,3 +76,36 @@ class UserLogoutView(LogoutView):
     def dispatch(self, request, *args, **kwargs):
         messages.success(request,'user logout')
         return super().dispatch(request, *args, **kwargs)
+    
+# Api view
+
+from rest_framework import generics
+from rest_framework.views import APIView
+from django.contrib.auth import login,logout
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import *
+
+class RegisterApiView(generics.CreateAPIView):
+
+    serializer_class = RegisterSerializer
+    def perform_create(self, serializer):
+        user = serializer.save()
+        login(self.request,user)
+        return user
+    
+class CustomLoginApiView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+class LogoutApiView(APIView):
+
+    def post(self,request):
+        try:
+            refresh_token = request.data.get('refresh')
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            logout(request)
+            return Response({'detail':'User logout successfully'},status=200)
+        except Exception:
+            return Response({'detail':'token is wrong'},status=400)
