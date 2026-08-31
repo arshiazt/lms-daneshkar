@@ -9,6 +9,8 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from .serializers import *
+from rest_framework.throttling import *
+from .throttles import *
 
 # Create your views here.
 
@@ -53,7 +55,7 @@ def profile_list_api_view(request):
     return Response(serializer_class.data)
 
 class ProfileListApiView(APIView):
-
+    throttle_classes = [UserRateThrottle]
     def get(self,request):
 
         profile = Profile.objects.all()
@@ -61,7 +63,8 @@ class ProfileListApiView(APIView):
         return Response(serializer_class.data)
     
 class ProfileListCreateApiView(ListCreateAPIView):
-    
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'profile'
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
