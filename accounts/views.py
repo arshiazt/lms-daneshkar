@@ -79,7 +79,7 @@ class UserLogoutView(LogoutView):
     
 # Api view
 
-from rest_framework import generics
+from rest_framework import generics,permissions
 from rest_framework.views import APIView
 from django.contrib.auth import login,logout
 from rest_framework.response import Response
@@ -99,7 +99,7 @@ class CustomLoginApiView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 class LogoutApiView(APIView):
-
+    permission_classes = [permissions.IsAuthenticated]
     def post(self,request):
         try:
             refresh_token = request.data.get('refresh')

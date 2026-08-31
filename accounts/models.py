@@ -21,7 +21,7 @@ class UserManager(BaseUserManager):
     def create_user(self,phone,password=None,**extra_fields):
         extra_fields.setdefault('is_staff',False)
         extra_fields.setdefault('is_active',True)
-        return self._crete_user(phone,password,**extra_fields)
+        return self._create_user(phone,password,**extra_fields)
     
     def create_superuser(self,phone,password=None,**extra_fields):
         extra_fields.setdefault('is_active',True)
@@ -43,7 +43,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    object=UserManager()
+    objects=UserManager()
     
     USERNAME_FIELD='phone'
     REQUIRED_FIELDS=['first_name','last_name']
