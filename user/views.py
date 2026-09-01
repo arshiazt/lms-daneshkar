@@ -14,6 +14,8 @@ from .throttles import *
 import django_filters.rest_framework as filters
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 
@@ -76,12 +78,22 @@ class ProfileFilter(filters.FilterSet):
         model = Profile
         fields = ['role','location']
 
+class ProfilePagination(PageNumberPagination):
+
+    page_size = 4
+    page_query_param = 'page'
+    max_page_size = 10
+
 class ProfileListApiView(ReadOnlyModelViewSet):
     
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ProfileFilter
+    search_fields = ['full_name',]
+    ordering_fields = ['created_at','rating','full_name']
+    ordering = ['-created_at']
+    pagination_class = ProfilePagination
 
 class ProfileListCreateApiView(ListCreateAPIView):
     # throttle_classes = [ScopedRateThrottle]
