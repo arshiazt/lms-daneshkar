@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_resized import ResizedImageField
 
 # Create your models here.
 
@@ -15,7 +16,14 @@ class Profile(models.Model):
         INSTRUCTOR = 'instrauctor', _('Instrauctor')
         STAFF = 'staff', _('Staff')
     role = models.CharField(max_length=20,choices=Role.choices,default=Role.STUDENT)
-    avatar = models.ImageField(upload_to='profile-avatar/',blank=True,null=True)
+    avatar = ResizedImageField(
+        size = [256,256],
+        quality = 75,
+        upload_to = 'profile-avatar',
+        force_format = 'JPEG',
+        blank=True,
+        null=True
+    )
     location = models.CharField(max_length=255,blank=True,null=True)
     course_enrolled = models.PositiveIntegerField(default=0,editable=False)
     course_completed = models.PositiveIntegerField(default=0,editable=False)

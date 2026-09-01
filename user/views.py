@@ -88,7 +88,7 @@ class ProfileListApiView(ReadOnlyModelViewSet):
     
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
     filterset_class = ProfileFilter
     search_fields = ['full_name',]
     ordering_fields = ['created_at','rating','full_name']
