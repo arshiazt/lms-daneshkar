@@ -162,3 +162,14 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1)
 }
+
+# Cash settings
+CACHE = {
+    'default':{
+        'BACKEND':'django_redis.cash.RedisCache',
+        'LOCATION':'redis://127.0.0.1:6379/1',
+        'OPTIONS':{
+            'CLIENT_CLASS':'django_redis.client.DefaultClient'
+        }
+    }
+}

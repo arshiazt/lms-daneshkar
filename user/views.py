@@ -16,6 +16,9 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.pagination import PageNumberPagination
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.core.cache import cache
 
 # Create your views here.
 
@@ -84,6 +87,7 @@ class ProfilePagination(PageNumberPagination):
     page_query_param = 'page'
     max_page_size = 10
 
+@method_decorator(cache_page(60 * 5),name='dispatch')
 class ProfileListApiView(ReadOnlyModelViewSet):
     
     queryset = Profile.objects.all()
@@ -110,3 +114,22 @@ class ProfileViewSet(ModelViewSet):
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+class CachedView(APIView):
+
+    def get(self,request):
+        data = cache.get('profile_stats')
+        if not data:
+            total = Profile.objects.count()
+            top_rating = Profile.objects.order_by('-rating').first()
+            data = {
+                'count':total,
+                'top_user':top_rating.full_name if top_rating else None
+            }
+            cache.set('profile_stats',data,timeout=300)
+        return  Response(data)
+    
+@receiver(post_save,sender=Profile)
+def clear_profile_cache(sender,instance,**kwargs):
+    cache.delete('profile_stats')
+    cache.delete_pattern('views.decorators.cache*')
