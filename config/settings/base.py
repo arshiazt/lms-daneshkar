@@ -140,11 +140,11 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle',
         'rest_framework.throttling.AnonRateThrottle'
     ],
-    'DEFAULT_THROTTLE_RATES':{
-        'user':'2/hour',
-        'anon':'1/hour',
-        'profile':'10/minute'
-    }
+    # 'DEFAULT_THROTTLE_RATES':{
+    #     'user':'2/hour',
+    #     'anon':'1/hour',
+    #     'profile':'10/minute'
+    # }
 }
 
 # Swagger settings

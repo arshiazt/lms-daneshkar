@@ -11,6 +11,9 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import *
 from rest_framework.throttling import *
 from .throttles import *
+import django_filters.rest_framework as filters
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -54,17 +57,35 @@ def profile_list_api_view(request):
     serializer_class = ProfileSerializer(profile,many=True)
     return Response(serializer_class.data)
 
-class ProfileListApiView(APIView):
-    throttle_classes = [UserRateThrottle]
-    def get(self,request):
+# class ProfileListApiView(APIView):
+#     throttle_classes = [UserRateThrottle]
+#     def get(self,request):
 
-        profile = Profile.objects.all()
-        serializer_class = ProfileSerializer(profile,many=True)
-        return Response(serializer_class.data)
+#         profile = Profile.objects.all()
+#         serializer_class = ProfileSerializer(profile,many=True)
+#         return Response(serializer_class.data)
+
+class ProfileFilter(filters.FilterSet):
+
+    course_enrolled_min = filters.NumberFilter(field_name='course_enrolled',lookup_expr='gte')
+    course_enrolled_max = filters.NumberFilter(field_name='course_enrolled',lookup_expr='lte')
+    rating_min = filters.NumberFilter(field_name='rating_min',lookup_expr='gte')
+    rating_max = filters.NumberFilter(field_name='rating_max',lookup_expr='lte')
+
+    class Meta:
+        model = Profile
+        fields = ['role','location']
+
+class ProfileListApiView(ReadOnlyModelViewSet):
     
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ProfileFilter
+
 class ProfileListCreateApiView(ListCreateAPIView):
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'profile'
+    # throttle_classes = [ScopedRateThrottle]
+    # throttle_scope = 'profile'
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
