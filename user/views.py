@@ -87,8 +87,19 @@ class ProfilePagination(PageNumberPagination):
     page_query_param = 'page'
     max_page_size = 10
 
-@method_decorator(cache_page(60 * 5),name='dispatch')
 class ProfileListApiView(ReadOnlyModelViewSet):
+    
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
+    filterset_class = ProfileFilter
+    search_fields = ['full_name',]
+    ordering_fields = ['created_at','rating','full_name']
+    ordering = ['-created_at']
+    pagination_class = ProfilePagination
+
+@method_decorator(cache_page(60 * 5),name='dispatch')
+class ProfileListCacheApiView(ReadOnlyModelViewSet):
     
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
