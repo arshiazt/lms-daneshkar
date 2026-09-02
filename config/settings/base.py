@@ -32,6 +32,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS",cast=Csv())
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -164,12 +165,22 @@ SIMPLE_JWT = {
 }
 
 # Cash settings
-CACHE = {
-    'default':{
-        'BACKEND':'django_redis.cash.RedisCache',
-        'LOCATION':'redis://127.0.0.1:6379/1',
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
         'OPTIONS':{
             'CLIENT_CLASS':'django_redis.client.DefaultClient'
         }
     }
+}
+
+JAZZMIN_SETTINGS = {
+    "site_title": "lms daneshkar",
+    "site_header": "LMS",
+    "site_brand": "Daneshkar",
+    "welcome_sign": "Welcome to the my project",
+    "copyright": "arshiazt",
+    "search_model": ['accounts.User',],
+    "show_sidebar": True,
 }
