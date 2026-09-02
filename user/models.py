@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from django_resized import ResizedImageField
+from auditlog.registry import auditlog
+from auditlog.models import AuditlogHistoryField
 
 # Create your models here.
 
@@ -43,13 +45,15 @@ class Profile(models.Model):
     linkedin_link = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    history = AuditlogHistoryField()
 
     class Meta:
         ordering = ["-created_at"]
 
     def __str__(self):
         return self.full_name
-
+auditlog.register(Profile)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def manage_profile(sender, instance, created, **kwargs):

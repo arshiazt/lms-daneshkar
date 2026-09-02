@@ -23,6 +23,8 @@ from .models import Profile
 from .serializers import *
 from .throttles import *
 
+from auditlog.models import LogEntry
+
 # Create your views here.
 
 
@@ -189,3 +191,8 @@ class ProfileNplusoneApiView(APIView):
                 }
             )
         return Response(data)
+    
+class LogEntryViewSet(ReadOnlyModelViewSet):
+
+    queryset = LogEntry.objects.all().select_related('actor','content_type')
+    serializer_class = LogEntrySerializer

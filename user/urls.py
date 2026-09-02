@@ -5,6 +5,7 @@ from .views import *
 
 router = DefaultRouter()
 router.register(r"profiles", ProfileViewSet, basename="profiles-viewset")
+router.register(r"profilelogs", LogEntryViewSet, basename="profile-logs-viewset")
 
 urlpatterns = [
     # path('profiles/',profiles_list_view,name="profiles-list"),
