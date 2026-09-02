@@ -20,3 +20,11 @@ def contact_view(request):
         message = request.POST.get("message")
         return HttpResponse(f"{name} ---> {message}")
     return render(request, "portfolio.html")
+
+def test_view(request):
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        message = request.POST.get("message")
+        return HttpResponse(f"{name} {message}")
+    return render(request, "test.html")
