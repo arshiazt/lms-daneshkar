@@ -7,13 +7,23 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0001_initial'),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='avatar',
-            field=django_resized.forms.ResizedImageField(blank=True, crop=None, force_format='JPEG', keep_meta=True, null=True, quality=75, scale=None, size=[256, 256], upload_to='profile-avatar'),
+            model_name="profile",
+            name="avatar",
+            field=django_resized.forms.ResizedImageField(
+                blank=True,
+                crop=None,
+                force_format="JPEG",
+                keep_meta=True,
+                null=True,
+                quality=75,
+                scale=None,
+                size=[256, 256],
+                upload_to="profile-avatar",
+            ),
         ),
     ]
