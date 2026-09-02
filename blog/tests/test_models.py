@@ -1,5 +1,6 @@
 import pytest
 from blog.models import *
+from .factories import *
 
 @pytest.mark.django_db
 def test_author_str():
@@ -33,3 +34,8 @@ def test_product_str_and_ordering():
     Product.objects.create(category=category,slug='expensive',price=150)
     prices = list(Product.objects.values_list('price',flat=True))
     assert prices == [150,20]
+
+@pytest.mark.django_db
+def test_book_factory():
+    book = BookFactory()
+    assert book.author.name == 'Test Author'
