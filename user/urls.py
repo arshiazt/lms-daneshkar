@@ -34,4 +34,9 @@ urlpatterns = [
         name="generics-profile-detail",
     ),
     path("viewset/", include(router.urls)),
+    path(
+        "nplusone/profiles/",
+        ProfileNplusoneApiView.as_view(),
+        name="nplusone-profiles-list",
+    ),
 ]

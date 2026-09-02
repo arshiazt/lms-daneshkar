@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+import logging
 from decouple import Csv, config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -47,9 +47,11 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "nplusone.ext.django",
 ]
 
 MIDDLEWARE = [
+    "nplusone.ext.django.NPlusOneMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -174,6 +176,7 @@ CACHES = {
     }
 }
 
+# jazzmin settings
 JAZZMIN_SETTINGS = {
     "site_title": "lms daneshkar",
     "site_header": "LMS",
@@ -185,3 +188,8 @@ JAZZMIN_SETTINGS = {
     ],
     "show_sidebar": True,
 }
+
+# nplusone settings
+NPLUSONE_RAISE = False
+NPLUSONE_LOGGER = logging.getLogger('nplusone')
+NPLUSONE_LOG_LEVEL = logging.WARN

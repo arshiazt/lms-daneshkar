@@ -175,3 +175,17 @@ class CachedView(APIView):
 def clear_profile_cache(sender, instance, **kwargs):
     cache.delete("profile_stats")
     cache.delete_pattern("views.decorators.cache*")
+
+class ProfileNplusoneApiView(APIView):
+
+    def get(self,request):
+        profiles = Profile.objects.select_related('user')
+        data = []
+        for profile in profiles:
+            data.append(
+                {
+                    'full_name':profile.full_name,
+                    'user':profile.user.first_name
+                }
+            )
+        return Response(data)
