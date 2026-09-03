@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "nplusone.ext.django",
     "django_extensions",
     "auditlog",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -201,3 +202,11 @@ NPLUSONE_LOG_LEVEL = logging.WARN
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    'say-hello-every-30-seconds':{
+        'task':'blog.tasks.say_hello',
+        'schedule':30.0,
+        'args':('Ali',)
+    }
+}
