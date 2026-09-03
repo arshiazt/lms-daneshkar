@@ -6,8 +6,8 @@ router = DefaultRouter()
 router.register(r'book',BookViewSet,basename='book')
 
 urlpatterns = [
-    path("portfolio/", contact_view, name="portfolio"),
-    path('test/',test_view,name='test'),
-    path('api/books/',BookListApiView.as_view(),name='book-list'),
+    # path("portfolio/", contact_view, name="portfolio"),
+    # path('test/',test_view,name='test'),
+    path('api/books/',BookListApiView.as_view(),name='bookss-list'),
     path('viewset/',include(router.urls)),
 ]

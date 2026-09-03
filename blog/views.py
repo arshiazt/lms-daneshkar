@@ -8,30 +8,30 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 
 
-def my_view(request):
-    context = {"name": "arshiazt", "skills": ["python", "django", "drf"]}
-    return render(request, "portfolio.html", context)
+# def my_view(request):
+#     context = {"name": "arshiazt", "skills": ["python", "django", "drf"]}
+#     return render(request, "portfolio.html", context)
 
 
-def test_id(request, pid):
-    return HttpResponse(f"Pid : {pid}")
+# def test_id(request, pid):
+#     return HttpResponse(f"Pid : {pid}")
 
 
-def contact_view(request):
+# def contact_view(request):
 
-    if request.method == "POST":
-        name = request.POST.get("name")
-        message = request.POST.get("message")
-        return HttpResponse(f"{name} ---> {message}")
-    return render(request, "portfolio.html")
+#     if request.method == "POST":
+#         name = request.POST.get("name")
+#         message = request.POST.get("message")
+#         return HttpResponse(f"{name} ---> {message}")
+#     return render(request, "portfolio.html")
 
-def test_view(request):
+# def test_view(request):
 
-    if request.method == "POST":
-        name = request.POST.get("name")
-        message = request.POST.get("message")
-        return HttpResponse(f"{name} {message}")
-    return render(request, "test.html")
+#     if request.method == "POST":
+#         name = request.POST.get("name")
+#         message = request.POST.get("message")
+#         return HttpResponse(f"{name} {message}")
+#     return render(request, "test.html")
 
 class BookListApiView(generics.ListAPIView):
 
