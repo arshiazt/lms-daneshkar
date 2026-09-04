@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts",
     "user",
-    "blog",
+    
     "rest_framework",
     "drf_spectacular",
     "rest_framework_simplejwt",
@@ -203,10 +203,10 @@ CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
-CELERY_BEAT_SCHEDULE = {
-    'say-hello-every-30-seconds':{
-        'task':'blog.tasks.say_hello',
-        'schedule':30.0,
-        'args':('Ali',)
-    }
-}
+# CELERY_BEAT_SCHEDULE = {
+#     'say-hello-every-30-seconds':{
+#         'task':'blog.tasks.say_hello',
+#         'schedule':30.0,
+#         'args':('Ali',)
+#     }
+# }
