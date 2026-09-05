@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import *
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-
+from .permissions import *
 from .forms import UserForms
 from .models import Profile
 from .serializers import *
@@ -109,11 +109,12 @@ class ProfilePagination(PageNumberPagination):
     page_query_param = "page"
     max_page_size = 10
 
-
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class ProfileListApiView(ReadOnlyModelViewSet):
 
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = [IsInstructorOrStaff]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProfileFilter
     search_fields = [
