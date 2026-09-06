@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "accounts",
     "user",
     'course',
-    
+    'lesson',
     "rest_framework",
     "drf_spectacular",
     "rest_framework_simplejwt",
