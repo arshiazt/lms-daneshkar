@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'course',
     'lesson',
     'notification',
+    'ticketing',
 
     "rest_framework",
     "drf_spectacular",
