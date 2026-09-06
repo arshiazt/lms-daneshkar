@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "user",
     'course',
     'lesson',
+    'notification',
+
     "rest_framework",
     "drf_spectacular",
     "rest_framework_simplejwt",
