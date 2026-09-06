@@ -12,6 +12,7 @@ from.permissions import *
 from rest_framework.views import  APIView
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from notification.tasks import *
 
 class CourseViewSet(viewsets.ModelViewSet):
 
@@ -72,6 +73,11 @@ class CreateInVoiceView(generics.CreateAPIView):
             serializer.instance = existing_invoice
         else:
             serializer.save(user=self.request.user,course=course,amount=course.price)
+            send_notification_task.delay(
+                user_id=self.request.user.id,
+                title='create new invoice',
+                message=f'{course.title} invoice'
+            )
 
 class PayInvoiceView(APIView):
 
@@ -83,4 +89,9 @@ class PayInvoiceView(APIView):
         invoice.mark_paid(fake_reference_code)
 
         Enrollment.objects.get_or_create(user=request.user,course=invoice.course)
+        send_notification_task.delay(
+                user_id=self.request.user.id,
+                title='successful payment',
+                message=f'payment for {invoice.id} course was successful'
+            )
         return Response({'detail':'Pay done...','payment_reference':fake_reference_code})
