@@ -5,7 +5,7 @@ class CourseVideoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CourseVideo
-        fields = ['id','title','video_file','order']
+        fields = ['id','title','video_files','order']
 
 class CourseSerializer(serializers.ModelSerializer):
 
