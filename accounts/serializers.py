@@ -1,9 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
 from .models import *
-
 
 class RegisterSerializer(serializers.ModelSerializer):
 
@@ -43,3 +41,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "phone": user.phone,
         }
         return data
+
+class RequestPasswordResetSerializer(serializers.Serializer):
+    phone = serializers.CharField(max_length=11)
+
+class VerifyOTPAndResetPasswordSerializer(serializers.Serializer):
+
+    phone = serializers.CharField(max_length=11)
+    otp_code = serializers.CharField(max_length=6)
+    new_password = serializers.CharField(max_length=128,min_length=8)
